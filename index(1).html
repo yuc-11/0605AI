@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0605</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cocoa-dark: #2C1810;
+    --cocoa-mid: #5C3317;
+    --cocoa-warm: #8B4513;
+    --cocoa-light: #C68642;
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --cream: #FAF6EE;
+    --cream-dark: #F0E8D8;
+    --green-deep: #2D5016;
+    --green-mid: #4A7C2F;
+    --text-dark: #1A0F08;
+    --text-mid: #4A2C1A;
+    --text-light: #8B6548;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(44, 24, 16, 0.95);
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2.5rem;
+    height: 60px;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    color: var(--gold-light);
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: var(--cocoa-dark);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg-texture {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 50%, rgba(92,51,23,0.6) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 80% 20%, rgba(44,24,16,0.8) 0%, transparent 50%),
+      radial-gradient(ellipse 40% 40% at 60% 80%, rgba(201,168,76,0.08) 0%, transparent 50%);
+  }
+  .hero-grain {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+  .hero-deco-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .hero-deco-circle:nth-child(1) { width: 600px; height: 600px; top: -150px; right: -150px; }
+  .hero-deco-circle:nth-child(2) { width: 400px; height: 400px; top: -50px; right: -50px; }
+  .hero-deco-circle:nth-child(3) { width: 300px; height: 300px; bottom: 50px; left: -100px; border-color: rgba(201,168,76,0.08); }
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    padding: 8rem 2rem 4rem;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.5);
+    padding: 0.4rem 1.2rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+  }
+  .hero-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    font-weight: 900;
+    line-height: 1.3;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  .hero-title .highlight {
+    font-family: 'DM Serif Display', serif;
+    color: var(--gold-light);
+    font-style: italic;
+    display: block;
+    font-size: 1.1em;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.15em;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+  .hero-abstract {
+    max-width: 680px; margin: 0 auto 3rem;
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.72);
+    text-align: left;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-left: 3px solid var(--gold);
+    padding: 1.5rem 1.8rem;
+    border-radius: 2px;
+  }
+  .hero-stats {
+    display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .stat-item {
+    text-align: center;
+    padding: 1rem 1.5rem;
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 4px;
+    min-width: 120px;
+  }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--gold-light);
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--gold);
+    color: var(--cocoa-dark);
+    text-decoration: none;
+    padding: 0.8rem 2rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .hero-cta:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 5rem 2rem; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    font-weight: 500;
+  }
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 700;
+    color: var(--cocoa-dark);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+  .section-desc {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    line-height: 1.8;
+    max-width: 600px;
+    margin-bottom: 3rem;
+  }
+  .divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin-bottom: 1.5rem;
+    border-radius: 2px;
+  }
+
+  /* ── FINDINGS ── */
+  #findings { background: var(--cocoa-dark); }
+  #findings .section-title { color: #fff; }
+  #findings .section-desc { color: rgba(255,255,255,0.6); }
+  .findings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .finding-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-top: 3px solid var(--gold);
+    padding: 2rem;
+    border-radius: 4px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .finding-card:hover { transform: translateY(-4px); border-color: var(--gold-light); }
+  .finding-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: rgba(201,168,76,0.25);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+  }
+  .finding-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 0.7rem;
+  }
+  .finding-text {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.8;
+  }
+
+  /* ── TEAM ── */
+  #team { background: var(--cream); }
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2.5rem;
+  }
+  .member-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 30px rgba(44,24,16,0.08);
+    border: 1px solid var(--cream-dark);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .member-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(44,24,16,0.15); }
+  .member-photo-wrap {
+    height: 220px;
+    overflow: hidden;
+    background: var(--cream-dark);
+    position: relative;
+  }
+  .member-photo-wrap::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: linear-gradient(transparent, #fff);
+  }
+  .member-photo-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+    transition: transform 0.5s;
+  }
+  .member-card:hover .member-photo-wrap img { transform: scale(1.05); }
+  .member-info { padding: 1.5rem 1.8rem 2rem; }
+  .member-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--cocoa-dark);
+    margin-bottom: 0.2rem;
+  }
+  .member-id {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+  .member-bio {
+    font-size: 0.87rem;
+    line-height: 1.85;
+    color: var(--text-mid);
+  }
+  .member-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+  .member-tag {
+    font-size: 0.7rem;
+    background: var(--cream-dark);
+    color: var(--cocoa-warm);
+    padding: 0.25rem 0.7rem;
+    border-radius: 20px;
+    border: 1px solid rgba(139,69,19,0.15);
+    font-weight: 500;
+  }
+
+  /* ── MEDIA SECTIONS ── */
+  #report, #slides { background: var(--cream-dark); }
+  #podcast { background: #fff; }
+  #video { background: var(--cream-dark); }
+
+  .pdf-embed-wrap {
+    background: #fff;
+    border: 1px solid var(--cream-dark);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(44,24,16,0.08);
+    margin-bottom: 1.5rem;
+  }
+  .pdf-embed-wrap iframe {
+    width: 100%; display: block; border: none;
+    height: 600px;
+  }
+
+  .btn-download {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--cocoa-dark);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.7rem 1.6rem;
+    font-size: 0.83rem;
+    font-weight: 500;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+    transition: background 0.2s, transform 0.2s;
+    border: 1px solid transparent;
+  }
+  .btn-download:hover { background: var(--cocoa-mid); transform: translateY(-2px); }
+  .btn-download.outline {
+    background: transparent;
+    color: var(--cocoa-dark);
+    border-color: var(--cocoa-dark);
+  }
+  .btn-download.outline:hover { background: var(--cocoa-dark); color: #fff; }
+
+  /* Podcast */
+  .podcast-container {
+    background: var(--cocoa-dark);
+    border-radius: 10px;
+    padding: 2.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .podcast-container::before {
+    content: '◉';
+    position: absolute; top: 1.5rem; right: 2rem;
+    font-size: 5rem; color: rgba(201,168,76,0.08);
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .podcast-title {
+    font-family: 'Noto Serif TC', serif;
+    color: var(--gold-light);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .podcast-desc {
+    color: rgba(255,255,255,0.55);
+    font-size: 0.83rem;
+    margin-bottom: 1.5rem;
+  }
+  .podcast-container audio {
+    width: 100%;
+    filter: invert(0);
+    accent-color: var(--gold);
+  }
+  /* Custom audio style on supported browsers */
+  audio::-webkit-media-controls-panel { background: rgba(255,255,255,0.05); }
+
+  .transcript-box {
+    background: var(--cream);
+    border: 1px solid var(--cream-dark);
+    border-left: 4px solid var(--gold);
+    border-radius: 4px;
+    padding: 2rem;
+    max-height: 400px;
+    overflow-y: auto;
+    font-size: 0.88rem;
+    line-height: 1.9;
+    color: var(--text-mid);
+    margin-bottom: 1rem;
+  }
+  .transcript-box p { margin-bottom: 1rem; }
+  .transcript-speaker {
+    font-weight: 700;
+    color: var(--cocoa-dark);
+    font-family: 'Noto Serif TC', serif;
+  }
+
+  /* Video */
+  .video-wrap {
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(44,24,16,0.2);
+    margin-bottom: 1.5rem;
+    aspect-ratio: 16/9;
+  }
+  .video-wrap video {
+    width: 100%; height: 100%;
+    display: block;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--cocoa-dark);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    border-top: 1px solid rgba(201,168,76,0.15);
+  }
+  footer span { color: var(--gold); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: var(--cocoa-light); border-radius: 3px; }
+
+  /* ── ANIMATIONS ── */
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-stats { gap: 1rem; }
+    .hero-abstract { font-size: 0.88rem; }
+    nav { padding: 0 1.2rem; }
+    .transcript-box { max-height: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">From Tree to Bar</div>
+  <ul class="nav-links">
+    <li><a href="#findings">研究發現</a></li>
+    <li><a href="#team">研究團隊</a></li>
+    <li><a href="#report">研究報告</a></li>
+    <li><a href="#slides">簡報成果</a></li>
+    <li><a href="#podcast">Podcast</a></li>
+    <li><a href="#video">影片介紹</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-texture"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-deco-circle"></div>
+  <div class="hero-deco-circle"></div>
+  <div class="hero-deco-circle"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">屏東科技大學 農企業管理系｜AI 基礎與商業應用</div>
+
+    <h1 class="hero-title">
+      屏東地區有機可可農企業的
+      <span class="highlight">「From Tree to Bar」</span>
+      品牌定位與體驗行銷策略研究
+    </h1>
+    <p class="hero-subtitle">Brand Positioning &amp; Experiential Marketing Strategy of Organic Cacao Agribusiness in Pingtung</p>
+
+    <div class="hero-abstract">
+      本研究探討屏東地區有機可可農企業如何運用 From Tree to Bar 一體化模式，結合品牌定位與體驗行銷策略，達成農業轉型與地方創生目標。屏東（北緯 22 度）因地球暖化成為新興產區，年均產量高達 1,000 kg/公頃，遠超全球平均。研究導入 Schmitt 五大體驗模組分析，情感體驗得分最高（5.3490），並提出「誠信行銷╳六級產業化」之整合策略，為屏東可可邁向國際精品市場提供具體路徑。
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">1,000</span>
+        <span class="stat-label">kg/公頃 年均產量</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">2.2×</span>
+        <span class="stat-label">超越全球平均</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">5.35</span>
+        <span class="stat-label">情感體驗滿意度</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">12億</span>
+        <span class="stat-label">本土市場潛力</span>
+      </div>
+    </div>
+
+    <a href="#findings" class="hero-cta">
+      ▾ &nbsp;探索研究成果
+    </a>
+  </div>
+</section>
+
+<!-- FINDINGS -->
+<section id="findings">
+  <div class="section-inner fade-up">
+    <div class="section-label">Research Findings</div>
+    <div class="divider" style="background: linear-gradient(90deg, var(--gold), transparent);"></div>
+    <h2 class="section-title" style="color:#fff;">五大核心研究發現</h2>
+    <p class="section-desc" style="color:rgba(255,255,255,0.6);">本研究透過 SWOT 分析、6 家代表業者個案研究，及 Schmitt 五大體驗模組，歸納以下關鍵發現。</p>
+
+    <div class="findings-grid">
+      <div class="finding-card">
+        <div class="finding-num">01</div>
+        <div class="finding-title">北緯22度的氣候競爭優勢</div>
+        <p class="finding-text">全球暖化使可可種植帶北移，屏東（均溫 25.6°C、濕度 79.8%）已成全球少數穩定產區。每公頃產量高達 1,000 kg，是全球平均 450 kg 的 2.2 倍，具備絕對的生產優勢。</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">02</div>
+        <div class="finding-title">情感體驗是消費決策的核心驅動力</div>
+        <p class="finding-text">Schmitt 五大體驗模組分析顯示，遊客對屏東可可農場的「情感體驗」滿意度最高（5.3490 分），遠超感官（5.2891）與關聯體驗（5.0743），證明文化行銷與故事敘事具強大共鳴力。</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">03</div>
+        <div class="finding-title">From Tree to Bar 創造不可複製的品質護城河</div>
+        <p class="finding-text">從種植、發酵、烘焙到成品的「一條龍」控管模式，使屏東業者能完整掌握「風土風味（Terroir）」，福灣、喜樂等品牌因此多次榮獲 ICA 國際巧克力大賽金牌肯定。</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">04</div>
+        <div class="finding-title">全果循環經濟提升整體產值 20%</div>
+        <p class="finding-text">突破廢棄物困境，將占果實重量 80% 的可可果殼，透過技術轉化為文創手抄紙、可可面膜等生技保養品，實現零廢棄的循環經濟，整體產值躍升 20% 以上。</p>
+      </div>
+      <div class="finding-card">
+        <div class="finding-num">05</div>
+        <div class="finding-title">小型農場的深度體驗品質優於大型農場</div>
+        <p class="finding-text">研究發現小型特色農場（如喜樂可可、牛角灣）在建立情感連結上優於大型農場，能提供更深度的教育解說。導入專業專案管理人才與永續經營呈高度正相關。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-inner fade-up">
+    <div class="section-label">Research Team</div>
+    <div class="divider"></div>
+    <h2 class="section-title">研究團隊成員</h2>
+    <p class="section-desc">屏東科技大學農企業管理系 農企 2A 班</p>
+
+    <div class="team-grid">
+
+      <!-- 紀貞妤 -->
+      <div class="member-card">
+        <div class="member-photo-wrap">
+          <img src="assets/member-ji.jpg" alt="紀貞妤" onerror="this.parentElement.style.background='linear-gradient(135deg,#C68642,#8B4513)';this.style.display='none'">
+        </div>
+        <div class="member-info">
+          <div class="member-name">紀貞妤</div>
+          <div class="member-id">農企 2A｜學號 B1350001</div>
+          <p class="member-bio">
+            就讀屏東科技大學農企業管理系，對農業產業的興趣從最初感受到與生活的貼近，深入學習後發現現代農業已結合企業管理、行銷與永續發展等領域，不再只是單純的生產行為，而是需要整體規劃的產業。
+          </p>
+          <p class="member-bio" style="margin-top:0.8rem;">
+            大學期間除課堂學習外，透過參訪與報告了解產業實際運作，尤其對永續與環境議題有高度興趣，積極考取 ISO 14064-1 溫室氣體盤查管理師、ISO 14067 產品碳足跡盤查管理師、ISO 50001 永續能源管理師、ESG 永續報告書管理師等多項認證。準備過程讓她深刻理解企業面對環境議題時，需以數據與制度管理，而非僅停留在概念口號。
+          </p>
+          <p class="member-bio" style="margin-top:0.8rem;">
+            個性踏實內斂，做事負責且善於步驟化完成任務；在團隊合作中雖不是最先發言者，卻能確保自身負責的部分落實到位，並樂意配合團隊調整。未來希望將農企業管理與永續領域的所學結合，應用於實務或產業，持續累積經驗，找到最適合自己的發展方向。
+          </p>
+          <div class="member-tags">
+            <span class="member-tag">碳足跡盤查</span>
+            <span class="member-tag">ESG管理</span>
+            <span class="member-tag">永續能源</span>
+            <span class="member-tag">溫室氣體</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 鄧丞育 -->
+      <div class="member-card">
+        <div class="member-photo-wrap">
+          <img src="assets/member-deng.jpg" alt="鄧丞育" onerror="this.parentElement.style.background='linear-gradient(135deg,#4A7C2F,#2D5016)';this.style.display='none'">
+        </div>
+        <div class="member-info">
+          <div class="member-name">鄧丞育</div>
+          <div class="member-id">農企 2A｜屏東科技大學農企業管理系，預計 2028 年畢業</div>
+          <p class="member-bio">
+            致力於將現代化管理、數據分析與資訊自動化技術導入傳統農業，期望成為推動農業科技與永續發展的跨領域人才。具備丙級造園施工技術士與丙級園藝技術士資格，對第一線農業與景觀實務有扎實理解。
+          </p>
+          <p class="member-bio" style="margin-top:0.8rem;">
+            因應全球淨零碳排趨勢，積極考取 ISO-14064-1 溫室氣體盤查管理師、ISO-14067 產品碳足跡盤查管理師及 ESG 永續報告書管理師等認證，深知農企業未來需接軌 GLOBALG.A.P. 與 ESG 規範。
+          </p>
+          <p class="member-bio" style="margin-top:0.8rem;">
+            具備跨領域軟體開發能力，擅長 C# 與 Python，能結合 AutoCAD、Civil 3D 進行客製化自動化開發，曾依台灣水保局 7 級坡分級標準獨立開發坡度分析工具。秉持「最成功與最失敗的活動，根本上都取決於團隊」的信念，期許將農業實務、ESG 永續經營與程式自動化完美結合，在農產科技新創領域發揮所長。
+          </p>
+          <div class="member-tags">
+            <span class="member-tag">Python / C#</span>
+            <span class="member-tag">造園技術士</span>
+            <span class="member-tag">ESG認證</span>
+            <span class="member-tag">自動化開發</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 陳冠妤 -->
+      <div class="member-card">
+        <div class="member-photo-wrap">
+          <img src="assets/member-chen.jpg" alt="陳冠妤" onerror="this.parentElement.style.background='linear-gradient(135deg,#C9A84C,#8B4513)';this.style.display='none'">
+        </div>
+        <div class="member-info">
+          <div class="member-name">陳冠妤</div>
+          <div class="member-id">農企 2A｜學號 B11350028</div>
+          <p class="member-bio">
+            目前就讀屏東科技大學農企業管理系大二。在學習與生活上，比起死板的理論或複雜的公式，更喜歡透過實際的體驗與觀察來吸收新知，認為最棒的學習方式就是從實務中發現問題、解決問題，從而培養出細心且具直覺性的觀察力。
+          </p>
+          <p class="member-bio" style="margin-top:0.8rem;">
+            在本次研究中，負責蒐集與整理屏東各可可業者的田野訪查資料，並協助分析 Schmitt 體驗行銷模組在實際案例中的呈現方式，將抽象理論轉化為具體的個案詮釋，為研究報告注入實務觀察的厚度。
+          </p>
+          <p class="member-bio" style="margin-top:0.8rem;">
+            在團隊合作中，通常扮演「溫和的傾聽者與支持者」角色，雖不是搶先發言的類型，卻擅長留意夥伴需求、在討論中提供安心且無壓力的溝通氛圍，樂意細心凝聚團隊共識，並在背後默默把分配到的任務做到最好，是團隊不可或缺的穩定力量。
+          </p>
+          <div class="member-tags">
+            <span class="member-tag">田野調查</span>
+            <span class="member-tag">個案研究</span>
+            <span class="member-tag">體驗行銷分析</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- REPORT -->
+<section id="report">
+  <div class="section-inner fade-up">
+    <div class="section-label">Full Research Report</div>
+    <div class="divider"></div>
+    <h2 class="section-title">完整研究報告</h2>
+    <p class="section-desc">本報告收錄完整研究背景、文獻回顧、資料分析方法、結果討論與建議，並附有詳細統計數據與個案比較表。</p>
+
+    <div class="pdf-embed-wrap">
+      <iframe src="assets/report.pdf" title="研究報告 PDF"></iframe>
+    </div>
+    <a href="assets/report.pdf" download class="btn-download">
+      ↓ &nbsp;下載研究報告 PDF
+    </a>
+  </div>
+</section>
+
+<!-- SLIDES -->
+<section id="slides">
+  <div class="section-inner fade-up">
+    <div class="section-label">Presentation Slides</div>
+    <div class="divider"></div>
+    <h2 class="section-title">簡報成果</h2>
+    <p class="section-desc">本研究簡報共 10 頁，涵蓋從產區優勢、Tree to Bar 流程、體驗行銷模型到未來展望的完整架構。</p>
+
+    <div class="pdf-embed-wrap">
+      <iframe src="assets/slides.pdf" title="簡報 PDF"></iframe>
+    </div>
+    <a href="assets/slides.pdf" download class="btn-download">
+      ↓ &nbsp;下載簡報 PDF
+    </a>
+  </div>
+</section>
+
+<!-- PODCAST -->
+<section id="podcast">
+  <div class="section-inner fade-up">
+    <div class="section-label">Podcast Episode</div>
+    <div class="divider"></div>
+    <h2 class="section-title">Podcast 節目</h2>
+    <p class="section-desc">《產業新視界》：深度訪談屏東可可的黑金革命，帶您從數據與故事兩個維度認識這場農業轉型。</p>
+
+    <div class="podcast-container">
+      <div class="podcast-title">【屏東黑金可可奪冠奇蹟：Tree to Bar 的轉型之路】</div>
+      <div class="podcast-desc">《產業新視界》｜完整收聽版</div>
+      <audio controls preload="metadata">
+        <source src="assets/podcast.mp3" type="audio/mpeg">
+        <source src="assets/podcast.m4a" type="audio/mp4">
+        您的瀏覽器不支援音訊播放，請下載後聆聽。
+      </audio>
+    </div>
+
+    <h3 style="font-family:'Noto Serif TC',serif;font-size:1rem;color:var(--cocoa-dark);margin-bottom:1rem;font-weight:600;">📋 Podcast 逐字稿</h3>
+    <div class="transcript-box">
+      <p><span class="transcript-speaker">主持人 A：</span>各位聽眾朋友大家好，歡迎收聽今天的《產業新視界》。我是主持人 A。今天我們要帶大家去台灣的最南端——屏東，去探索那裡正在發生的一場「黑金革命」。我們今天請到研究專家主持人 B，來跟我們聊聊現在非常火紅的「屏東有機可可」。B，歡迎你！</p>
+      <p><span class="transcript-speaker">主持人 B：</span>大家好！很高興能跟大家分享這個主題。屏東可可現在不只是農產品，它已經成功轉型為一種結合文化、精品與深度體驗的「創意生活產業」了。</p>
+      <p><span class="transcript-speaker">主持人 A：</span>提到巧克力，大家通常會想到歐洲或是赤道國家。屏東真的適合種可可嗎？</p>
+      <p><span class="transcript-speaker">主持人 B：</span>沒錯，傳統的可可帶是在南北緯 20 度之間，但因為全球暖化，種植帶正在北移。屏東位於北緯 22 度，剛好承接了這個優勢。根據氣象站 11 年來的數據，屏東平均氣溫 25.6 度、濕度 79.8%，簡直是可可的天然溫室。更驚人的是，全球乾豆每公頃平均產量大約 450 到 470 公斤，但屏東竟然可以達到 1,000 公斤，是全球平均的兩倍以上！</p>
+      <p><span class="transcript-speaker">主持人 A：</span>產量這麼驚人！那在商業模式上，屏東可可有什麼特別的地方嗎？</p>
+      <p><span class="transcript-speaker">主持人 B：</span>關鍵就在於「From Tree to Bar」。傳統大廠是分段生產，但屏東業者是從種植、發酵、烘焙到成品「一條龍」完成。這能確保原料最新鮮，還能控管出最具「風土味」的品質。這也是為什麼像「福灣巧克力」能在國際賽事 ICA 中橫掃獎項，甚至「喜樂可可」和「牛角灣」都能拿下卓越可可豆金牌的原因。</p>
+      <p><span class="transcript-speaker">主持人 A：</span>既然走精品路線，那行銷策略一定很有特色。我看到研究裡提到 Schmitt 的「體驗行銷」，這怎麼應用在農場裡？</p>
+      <p><span class="transcript-speaker">主持人 B：</span>這是非常有意思的地方。研究發現，遊客對於屏東可可農場的「情感體驗」滿意度是最高的。業者會設計多層次的活動：感官與行動體驗，例如「可茵山」推出了特殊的「可可火鍋」吸引饕客；或是讓遊客親手「剖豆」、DIY 巧克力，這種參與感會轉化為對品牌的忠誠度。文化與思考體驗方面，像是「可可雅米」把萬金教堂、石獅公等地方故事放進包裝；「林后可可」則推廣「全果利用」，把原本是廢棄物的果殼（占果實 80% 重量）變成面膜或文創紙，讓遊客思考永續的價值。</p>
+      <p><span class="transcript-speaker">主持人 A：</span>聽起來每一家業者都有自己的招式。可以稍微總結一下這些代表性品牌嗎？</p>
+      <p><span class="transcript-speaker">主持人 B：</span>當然。福灣巧克力走國際職人精品路線，碳足跡最短；喜樂可可結合大路關石獅公文化，溫暖的在地品牌；林后可可強調循環經濟，開發美妝與生技副產品；牛角灣農園堅持自然農法與草生栽培，強調與生態共生。這些業者證明了，只要把文化注入農業，價值就會翻倍。</p>
+      <p><span class="transcript-speaker">主持人 A：</span>但這麼棒的產業，未來還有什麼挑戰嗎？</p>
+      <p><span class="transcript-speaker">主持人 B：</span>挑戰確實存在。像是農村人口老化、專業行銷人才缺乏，以及品種穩定性還有待提升。我們建議：第一，建立統一的「屏東可可」大標章，由政府帶頭打國際戰；第二，導入專案管理，穩定生產流程與品質控管；第三，跨域結盟，把可可與地方旅遊更緊密結合。</p>
+      <p><span class="transcript-speaker">主持人 A：</span>總結來說，屏東可可已經從「一級農業」變成了充滿故事的「精品產業」。</p>
+      <p><span class="transcript-speaker">主持人 B：</span>沒錯！它不僅填補了本土巧克力市場的缺口，更成為地方創生的模範生。屏東可可，真的讓我們看到了台灣農業的新希望。</p>
+      <p><span class="transcript-speaker">主持人 A：</span>謝謝 B 今天的分享，聽完之後我真的想立刻衝去屏東喝一杯純正的可可茶了！《產業新視界》，我們下次見！</p>
+    </div>
+    <a href="assets/transcript.pdf" download class="btn-download outline">
+      ↓ &nbsp;下載逐字稿 PDF
+    </a>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section id="video">
+  <div class="section-inner fade-up">
+    <div class="section-label">Video Overview</div>
+    <div class="divider"></div>
+    <h2 class="section-title">Video Overview 教學影片</h2>
+    <p class="section-desc">影片概覽本研究的核心論點與屏東可可產業的發展歷程，適合快速掌握整體研究架構。</p>
+
+    <div class="video-wrap">
+      <video controls preload="metadata" poster="assets/video-poster.jpg">
+        <source src="assets/video.mp4" type="video/mp4">
+        您的瀏覽器不支援影片播放。
+      </video>
+    </div>
+    <a href="assets/video.mp4" download class="btn-download">
+      ↓ &nbsp;下載影片 MP4
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    <span>屏東地區有機可可農企業的 From Tree to Bar 品牌定位與體驗行銷策略研究</span><br>
+    <span style="color:rgba(255,255,255,0.3);font-size:0.75rem;">屏東科技大學 農企業管理系 農企 2A｜AI 基礎與商業應用課程期末成果</span>
+  </p>
+</footer>
+
+<script>
+// Scroll fade-up
+const faders = document.querySelectorAll('.fade-up');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: 0.1 });
+faders.forEach(f => io.observe(f));
+</script>
+</body>
+</html>
